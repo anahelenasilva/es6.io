@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<ul>
+<ul class="videos">
   <li data-time="5:17">Flexbox Video</li>
   <li data-time="8:22">Flexbox Video</li>
   <li data-time="3:34">Redux Video</li>
@@ -32,14 +32,24 @@
 <script>
 
   // Select all the list items on the page and convert to array
+  const items = Array.from(document.querySelectorAll('.videos li'))
 
   // Filter for only the elements that contain the word 'Flexbox'
+  const flexboxItems = items.filter(item => item.innerText.includes('Flexbox'))
+  console.log(flexboxItems)
 
   // map down to a list of time strings
-
+  const times = flexboxItems.map(item => item.getAttribute('data-time'))
+  
   // map to an array of seconds
+  const seconds = times.map(time => {
+    const [minutes, seconds] = time.split(':')
+    return parseInt(minutes) * 60 + parseInt(seconds)
+  })
 
   // reduce to get total
+  const total = seconds.reduce((runningTotal, seconds) => runningTotal + seconds, 0)
+  console.log(total)
 
   // 🔥 This can also be done in a single .reduce(), but we're practicing arrow functions here, so chain them!
 
