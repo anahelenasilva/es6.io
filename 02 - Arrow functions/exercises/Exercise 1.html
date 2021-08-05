@@ -35,20 +35,21 @@
   const items = Array.from(document.querySelectorAll('.videos li'))
 
   // Filter for only the elements that contain the word 'Flexbox'
-  const flexboxItems = items.filter(item => item.innerText.includes('Flexbox'))
-  console.log(flexboxItems)
+  const total = items
+      .filter(flexBoxItem => flexBoxItem.innerText.includes('Flexbox'))
 
-  // map down to a list of time strings
-  const times = flexboxItems.map(item => item.getAttribute('data-time'))
+      // map down to a list of time strings
+      .map(item => item.dataset.time)
+
+      // map to an array of seconds
+      .map(time => {
+        const [minutes, seconds] = time.split(':')
+        return parseInt(minutes) * 60 + parseInt(seconds)
+      })
+      // reduce to get total
+      .reduce((runningTotal, seconds) => runningTotal + seconds, 0)
   
-  // map to an array of seconds
-  const seconds = times.map(time => {
-    const [minutes, seconds] = time.split(':')
-    return parseInt(minutes) * 60 + parseInt(seconds)
-  })
 
-  // reduce to get total
-  const total = seconds.reduce((runningTotal, seconds) => runningTotal + seconds, 0)
   console.log(total)
 
   // 🔥 This can also be done in a single .reduce(), but we're practicing arrow functions here, so chain them!
